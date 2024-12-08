@@ -286,4 +286,15 @@ body {
     .button {
       font-size: 0.9rem;
     }
+
+    .link-button {
+      background: none;
+      border: 1px solid rgb(236, 231, 231);
+      font-size: 0.9rem;
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 10px 90px;
+      border-radius: 20px;
+    }
   }
